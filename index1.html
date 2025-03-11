@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      @import url(https://fonts.googleapis.com/css?family=Khula:700);
+      body {
+        background: #111;
+      }
+      .container {
+        margin: 0 auto;
+        width: 90%;
+      }
+      .hidden {
+        opacity: 0;
+      }
+      .console-container {
+        font-family: Khula;
+        font-size: 40px; /* Decreased font size */
+        color: white;
+        margin-top: 5px; /* Decreased space */
+        text-align: left; /* Align text to the left */
+      }
+      .hero-text {
+        display: flex;
+        flex-direction: column; /* Changed to column */
+        align-items: flex-start; /* Align items to the left */
+      }
+      .console-underscore {
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="hero-text">
+        <h1 style="color: aliceblue; font-size: 30px">Hello I'm { Robiul Islam }</h1> <!-- Decreased font size -->
+        <div class="console-container">
+          <span id="text"></span>
+          <div class="console-underscore" id="console">&#95;</div>
+        </div>
+      </div>
+      <script>
+        // function([string1, string2],target id,[color1,color2])
+        consoleText(["Single Page Application"], "text", ["Green"]);
+
+        function consoleText(words, id, colors) {
+          if (colors === undefined) colors = ["#fff"];
+          var visible = true;
+          var con = document.getElementById("console");
+          var letterCount = 1;
+          var x = 1;
+          var waiting = false;
+          var target = document.getElementById(id);
+          target.setAttribute("style", "color:" + colors[0]);
+          window.setInterval(function () {
+            if (letterCount === 0 && waiting === false) {
+              waiting = true;
+              target.innerHTML = words[0].substring(0, letterCount);
+              window.setTimeout(function () {
+                var usedColor = colors.shift();
+                colors.push(usedColor);
+                var usedWord = words.shift();
+                words.push(usedWord);
+                x = 1;
+                target.setAttribute("style", "color:" + colors[0]);
+                letterCount += x;
+                waiting = false;
+              }, 1000);
+            } else if (
+              letterCount === words[0].length + 1 &&
+              waiting === false
+            ) {
+              waiting = true;
+              window.setTimeout(function () {
+                x = -1;
+                letterCount += x;
+                waiting = false;
+              }, 1000);
+            } else if (waiting === false) {
+              target.innerHTML = words[0].substring(0, letterCount);
+              letterCount += x;
+            }
+          }, 120);
+          window.setInterval(function () {
+            if (visible === true) {
+              con.className = "console-underscore hidden";
+              visible = false;
+            } else {
+              con.className = "console-underscore";
+              visible = true;
+            }
+          }, 400);
+        }
+      </script>
+    </div>
+  </body>
+</html>
